@@ -4,87 +4,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FarorsCodeSnapPro</title>
+    <title>FarorsCodeSnap Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
-    <!-- Prism Theme for VSCode-like highlighting - added crossorigin="anonymous" to fix export errors -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
+            background-color: #020617;
             color: #f8fafc;
             margin: 0;
+            overflow: hidden;
         }
         .code-font {
             font-family: 'Fira Code', monospace;
         }
-        /* Custom Prism Overrides for VSCode feel */
-        code[class*="language-"], pre[class*="language-"] {
-            background: transparent !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            border: none !important;
-            box-shadow: none !important;
-            font-family: 'Fira Code', monospace !important;
-            white-space: pre-wrap !important;
-            word-break: break-all !important;
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+        /* Local Prism Styles to avoid CORS issues during html-to-image conversion */
+        code[class*="language-"],
+        pre[class*="language-"] {
+            color: #ccc;
+            background: none;
+            font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 1em;
+            text-align: left;
+            white-space: pre;
+            word-spacing: normal;
+            word-break: normal;
+            word-wrap: normal;
+            line-height: 1.5;
+            -moz-tab-size: 4;
+            -o-tab-size: 4;
+            tab-size: 4;
+            -webkit-hyphens: none;
+            -moz-hyphens: none;
+            -ms-hyphens: none;
+            hyphens: none;
         }
-        /* VSCode-ish Token Colors */
-        .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #6a9955; }
-        .token.punctuation { color: #d4d4d4; }
-        .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #b5cea8; }
-        .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #ce9178; }
-        .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #d4d4d4; }
-        .token.atrule, .token.attr-value, .token.keyword { color: #569cd6; }
-        .token.function, .token.class-name { color: #dcdcaa; }
-        .token.regex, .token.important, .token.variable { color: #d16969; }
-        
-        /* Hide scrollbars for export */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        
-        /* Custom scrollbar for app UI */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
+        .token.comment, .token.block-comment, .token.prolog, .token.doctype, .token.cdata { color: #999; }
+        .token.punctuation { color: #ccc; }
+        .token.tag, .token.attr-name, .token.namespace, .token.deleted { color: #e2777a; }
+        .token.function-name { color: #6196cc; }
+        .token.boolean, .token.number, .token.function { color: #f08d49; }
+        .token.property, .token.class-name, .token.constant, .token.symbol { color: #f8c555; }
+        .token.selector, .token.important, .token.atrule, .token.keyword, .token.builtin { color: #cc99cd; }
+        .token.string, .token.char, .token.attr-value, .token.regex, .token.variable { color: #7ec699; }
+        .token.operator, .token.entity, .token.url { color: #67cdcc; }
+        .token.important, .token.bold { font-weight: bold; }
+        .token.italic { font-style: italic; }
+        .token.entity { cursor: help; }
+        .token.inserted { color: green; }
+
+        /* Animation overrides */
+        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+        .animate-in { animation: fade-in 0.5s ease-out forwards; }
     </style>
-<script type="importmap">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom": "https://esm.sh/react-dom@^19.2.3",
     "react-dom/client": "https://esm.sh/react-dom@^19.2.3/client",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
     "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
+    "jspdf": "https://esm.sh/jspdf@^4.0.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
     "html-to-image": "https://esm.sh/html-to-image@^1.11.13",
-    "jspdf": "https://esm.sh/jspdf@^2.5.1",
-    "prismjs": "https://esm.sh/prismjs@^1.29.0",
+    "prismjs": "https://esm.sh/prismjs@^1.30.0",
+    "prismjs/components/": "https://esm.sh/prismjs@^1.30.0/components/",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/",
-    "prismjs/": "https://esm.sh/prismjs@^1.29.0/"
+    "prismjs/": "https://esm.sh/prismjs@^1.30.0/"
   }
 }
 </script>
-</head>
-<body>
-    <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>
